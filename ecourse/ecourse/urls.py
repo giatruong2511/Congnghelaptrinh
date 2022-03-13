@@ -13,11 +13,35 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import debug_toolbar
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include, re_path
 from courses.admin import admin_site
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="My Course API",
+        default_version='v1',
+        description="APIs for CourseApp",
+        contact=openapi.Contact(email="1951050100truong@ou.edu.vn"),
+        license=openapi.License(name="Nguyễn Văn Trường @2022"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 urlpatterns = [
     path('', include('courses.urls')),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
     path('admin/', admin_site.urls),
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('__debug__/', include(debug_toolbar.urls))
 ]
+
+
