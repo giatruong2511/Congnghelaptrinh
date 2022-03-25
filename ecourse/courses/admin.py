@@ -1,8 +1,7 @@
 from django.contrib import admin
 from django.db.models import Count
 from django.template.response import TemplateResponse
-
-from .models import  Category, Course, Lesson, Tag, User
+from .models import  Category, Course, Lesson, Tag, User , Comment, Action, Rating
 from django.utils.html import mark_safe
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
@@ -71,4 +70,9 @@ admin_site.register(Category, CategoryAdmin)
 admin_site.register(Course, CourseAdmin)
 admin_site.register(Lesson, LessonAdmin)
 admin_site.register(Tag)
-# Register your models here.
+admin_site.register(Comment)
+admin_site.register(Action)
+admin_site.register(Rating)
+
+
+
